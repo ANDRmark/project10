@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO
 {
-    class MessageDTO : EntityDTO
+    public class MessageDTO : EntityDTO
     {
         public int ThemeId { get; set; }
         public string MessageBody { get; set; }

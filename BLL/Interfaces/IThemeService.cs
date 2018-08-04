@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    interface IThemeService
+     public interface IThemeService
     {
         IEnumerable<ThemeDTO> GetAll();
         ThemeDTO GetById(int id);

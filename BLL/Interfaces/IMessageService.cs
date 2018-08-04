@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    interface IMessageService
+    public interface IMessageService
     {
         IEnumerable<MessageDTO> GetAll();
         MessageDTO GetById(int id);

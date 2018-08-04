@@ -27,22 +27,28 @@ namespace BLL.Services
 
         IEnumerable<MessageDTO> IMessageService.GetAll()
         {
-            throw new NotImplementedException();
+             IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetAll();
+            return this.mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
 
         MessageDTO IMessageService.GetById(int id)
         {
-            throw new NotImplementedException();
+            DAL.Models.Message message = this.unitOfWork.Messages.GetById(id);
+            return this.mapper.Map<MessageDTO>(message);
         }
 
-        void IMessageService.Insert(MessageDTO newCategory)
+        void IMessageService.Insert(MessageDTO newMessage)
         {
-            throw new NotImplementedException();
+            DAL.Models.Message message = this.mapper.Map<DAL.Models.Message>(newMessage);
+            this.unitOfWork.Messages.Insert(message);
+            this.unitOfWork.Save();
         }
 
-        void IMessageService.Update(MessageDTO category)
+        void IMessageService.Update(MessageDTO messageToUpdate)
         {
-            throw new NotImplementedException();
+            DAL.Models.Message message = this.mapper.Map<DAL.Models.Message>(messageToUpdate);
+            this.unitOfWork.Messages.Update(message);
+            this.unitOfWork.Save();
         }
     }
 }
