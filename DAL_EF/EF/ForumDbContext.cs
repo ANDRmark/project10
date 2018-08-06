@@ -15,7 +15,7 @@ namespace DAL_EF.EF
 
         public ForumDbContext(string connectionString):base(connectionString)
         {
-
+            Console.Beep();
         }
         static ForumDbContext()
         {
