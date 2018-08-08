@@ -13,6 +13,7 @@ namespace BLL.Interfaces
         MessageDTO GetById(int id);
         void Insert(MessageDTO newCategory);
         void Update(MessageDTO category);
+        IEnumerable<MessageDTO> GetByThemeId(int themeid);
         void Delete(int id);
     }
 }

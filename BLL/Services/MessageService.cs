@@ -27,7 +27,7 @@ namespace BLL.Services
 
         IEnumerable<MessageDTO> IMessageService.GetAll()
         {
-             IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetAll();
+            IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetAll();
             return this.mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
 
@@ -49,6 +49,11 @@ namespace BLL.Services
             DAL.Models.Message message = this.mapper.Map<DAL.Models.Message>(messageToUpdate);
             this.unitOfWork.Messages.Update(message);
             this.unitOfWork.Save();
+        }
+        IEnumerable<MessageDTO> IMessageService.GetByThemeId(int themeid)
+        {
+            IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetFiltered(m => m.ThemeId == themeid);
+            return this.mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
     }
 }

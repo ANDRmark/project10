@@ -15,13 +15,21 @@ namespace DAL_EF
         private readonly Lazy<IRepository<Message>> lazyMessages;
         private readonly Lazy<IRepository<Theme>> lazyThemes;
 
-        private readonly ForumDbContext dbContext;
+        private readonly Lazy<ForumDbContext> lazydbContext;
 
         public UnitOfWork(string connectionString)
         {
-            this.dbContext = new ForumDbContext(connectionString);
+            this.lazydbContext = new Lazy<ForumDbContext>(() => new ForumDbContext(connectionString));
             this.lazyMessages = new Lazy<IRepository<Message>>(() => new MessageRepository(this.dbContext), true);
             this.lazyThemes = new Lazy<IRepository<Theme>>(() => new ThemeRepository(this.dbContext), true);
+        }
+
+        private ForumDbContext dbContext
+        {
+            get
+            {
+                return this.lazydbContext.Value;
+            }
         }
 
 
