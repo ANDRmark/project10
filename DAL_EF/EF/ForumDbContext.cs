@@ -12,6 +12,7 @@ namespace DAL_EF.EF
     {
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<UserInfo> Users { get; set; }
 
         public ForumDbContext(string connectionString):base(connectionString)
         {
@@ -25,6 +26,7 @@ namespace DAL_EF.EF
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>().HasRequired(m => m.Theme).WithMany(t => t.Messages).HasForeignKey(m => m.ThemeId).WillCascadeOnDelete(true);
+            modelBuilder.Entity<Message>().HasRequired(m => m.User).WithMany().HasForeignKey(m => m.UserId).WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -52,7 +52,7 @@ namespace BLL.Services
         }
         IEnumerable<MessageDTO> IMessageService.GetByThemeId(int themeid)
         {
-            IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetFiltered(m => m.ThemeId == themeid);
+            IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetMessagesByThemeIdWithUsers(themeid);
             return this.mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
     }

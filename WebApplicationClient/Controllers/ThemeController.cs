@@ -35,5 +35,6 @@ namespace WebApplicationClient.Controllers
         {
             return Ok(new { themes = this.themeService.GetAll() });
         }
+
     }
 }

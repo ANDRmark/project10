@@ -9,8 +9,9 @@ namespace DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<Theme> Themes { get; }
-        IRepository<Message> Messages { get; }
+        IThemeRepository Themes { get; }
+        IMessageRepository Messages { get; }
+        IUserInfoRepository Users { get;  }
         void Save();
     }
 }

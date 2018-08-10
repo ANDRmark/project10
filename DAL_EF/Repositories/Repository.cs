@@ -12,22 +12,22 @@ namespace DAL_EF.Repositories
 {
     class Repository<T> : IRepository<T> where T : DAL.Models.Entity
     {
-        ForumDbContext context;
-        DbSet<T> table;
+        protected DbContext context;
+        protected DbSet<T> table;
 
-        public Repository(ForumDbContext context)
+        public Repository(DbContext context)
         {
             this.context = context;
             this.table = context.Set<T>();
         }
 
-        void IRepository<T>.Delete(int id)
+        public virtual void Delete(int id)
         {
             T entityToDelete = this.table.Find(id);
             this.Delete(entityToDelete);
         }
 
-        public void Delete(T item)
+        public virtual void Delete(T item)
         {
             if (item == null) return;
             if (this.context.Entry(item).State == EntityState.Detached)
@@ -37,28 +37,28 @@ namespace DAL_EF.Repositories
             this.table.Remove(item);
         }
 
-        IEnumerable<T> IRepository<T>.GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return this.table.ToList();
         }
 
-        T IRepository<T>.GetById(int id)
+        public virtual T GetById(int id)
         {
             return this.table.Find(id);
         }
 
-        IEnumerable<T> IRepository<T>.GetFiltered(Expression<Func<T, bool>> predicat)
+        public virtual IEnumerable<T> GetFiltered(Expression<Func<T, bool>> predicat)
         {
             return this.table.Where(predicat).ToList();
         }
 
-        void IRepository<T>.Insert(T item)
+        public virtual void Insert(T item)
         {
             if (item == null) throw new ArgumentException();
             this.table.Add(item);
         }
 
-        void IRepository<T>.Update(T item)
+        public virtual void Update(T item)
         {
             if (item == null) throw new ArgumentException();
 

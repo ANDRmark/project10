@@ -12,16 +12,18 @@ namespace DAL_EF
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly Lazy<IRepository<Message>> lazyMessages;
-        private readonly Lazy<IRepository<Theme>> lazyThemes;
+        private readonly Lazy<IMessageRepository> lazyMessages;
+        private readonly Lazy<IThemeRepository> lazyThemes;
+        private readonly Lazy<IUserInfoRepository> lazyUsers;
 
         private readonly Lazy<ForumDbContext> lazydbContext;
 
         public UnitOfWork(string connectionString)
         {
-            this.lazydbContext = new Lazy<ForumDbContext>(() => new ForumDbContext(connectionString));
-            this.lazyMessages = new Lazy<IRepository<Message>>(() => new MessageRepository(this.dbContext), true);
-            this.lazyThemes = new Lazy<IRepository<Theme>>(() => new ThemeRepository(this.dbContext), true);
+            this.lazydbContext = new Lazy<ForumDbContext>(() => new ForumDbContext(connectionString),true);
+            this.lazyMessages = new Lazy<IMessageRepository>(() => new MessageRepository(this.dbContext), true);
+            this.lazyThemes = new Lazy<IThemeRepository>(() => new ThemeRepository(this.dbContext), true);
+            this.lazyUsers = new Lazy<IUserInfoRepository>(() => new UserInfoRepository(this.dbContext), true);
         }
 
         private ForumDbContext dbContext
@@ -33,7 +35,7 @@ namespace DAL_EF
         }
 
 
-        IRepository<Message> IUnitOfWork.Messages
+        IMessageRepository IUnitOfWork.Messages
         {
             get
             {
@@ -41,11 +43,18 @@ namespace DAL_EF
             }
         }
 
-        IRepository<Theme> IUnitOfWork.Themes
+        IThemeRepository IUnitOfWork.Themes
         {
             get
             {
                 return this.lazyThemes.Value;
+            }
+        }
+        IUserInfoRepository IUnitOfWork.Users
+        {
+            get
+            {
+                return this.lazyUsers.Value;
             }
         }
 

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class User : Entity
+    public class UserInfo : Entity
     {
-        string Name { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
     }
 }

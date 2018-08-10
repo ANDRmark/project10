@@ -13,11 +13,12 @@ namespace BLL.DTO
         public int ThemeId { get; set; }
         public string MessageBody { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public ThemeDTO Theme { get; set; }
+        //[JsonIgnore]
+        //[IgnoreDataMember]
+        //public ThemeDTO Theme { get; set; }
 
         public int UserId { get; set; }
+        public string UserName { get; set; }
 
         public DateTime CreateDate { get; set; }
     }

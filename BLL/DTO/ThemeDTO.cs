@@ -12,9 +12,9 @@ namespace BLL.DTO
     {
         public string Title { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public virtual ICollection<MessageDTO> Messages { get; set; }
+        //[JsonIgnore]
+        //[IgnoreDataMember]
+        //public virtual ICollection<MessageDTO> Messages { get; set; }
 
         public DateTime CreateDate { get; set; }
     }
