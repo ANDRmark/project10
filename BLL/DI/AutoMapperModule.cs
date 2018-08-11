@@ -26,7 +26,7 @@ namespace BLL.DI
         public AutoMapperProfileForDTOs()
         {
             this.CreateMap<Message, MessageDTO>()
-                .ForMember(m => m.UserName, opt => opt.MapFrom(m => m.User.Name));
+                .ForMember(m => m.UserName, opt => opt.MapFrom(m => m.User.UserName));
             this.CreateMap<MessageDTO, Message>()
                 .ForMember(m => m.User, opt => opt.Ignore()).ForMember(m => m.Theme, opt => opt.Ignore());
 

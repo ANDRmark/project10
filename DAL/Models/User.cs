@@ -8,7 +8,7 @@ namespace DAL.Models
 {
     public class UserInfo : Entity
     {
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string ExternalUserId { get; set; }
     }

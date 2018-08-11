@@ -342,7 +342,16 @@ namespace WebApplicationClient.Controllers
             {
                 return GetErrorResult(result);
             }
-            this.userInfoService.Insert(new BLL.DTO.UserInfoDTO() { ExternalUserId = user.Id, Name = user.UserName, Email = user.Email });
+            try
+            {
+                this.userInfoService.Insert(new BLL.DTO.UserInfoDTO() { ExternalUserId = user.Id, UserName = user.UserName, Email = user.Email });
+            }
+            catch
+            {
+                await UserManager.DeleteAsync(UserManager.FindByEmail(model.Email));
+                return GetErrorResult(new IdentityResult("Some error occured, user is not created"));
+            }
+            
 
             return Ok();
         }

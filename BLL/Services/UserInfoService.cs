@@ -44,6 +44,12 @@ namespace BLL.Services
             return this.mapper.Map<UserInfoDTO>(user);
         }
 
+        UserInfoDTO IUserInfoService.GetByUsername(string username)
+        {
+            DAL.Models.UserInfo user = this.unitOfWork.Users.GetByUsername(username);
+            return this.mapper.Map<UserInfoDTO>(user);
+        }
+
         void IUserInfoService.Insert(UserInfoDTO newUserInfo)
         {
             DAL.Models.UserInfo user = this.mapper.Map<DAL.Models.UserInfo>(newUserInfo);

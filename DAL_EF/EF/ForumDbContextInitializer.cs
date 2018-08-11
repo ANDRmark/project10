@@ -40,14 +40,14 @@ namespace DAL_EF.EF
                 new Message(){ Id = 16, ThemeId = 4, CreateDate=DateTime.Now, MessageBody="Message 16", UserId=7},
             });
             context.Users.AddRange(new UserInfo[] {
-                new UserInfo(){Id=0, Name="Vasya 1", Email="ololo@olo.ol" },
-                new UserInfo(){Id=1, Name="Vasya 2", Email="ololo@olo.ol" },
-                new UserInfo(){Id=2, Name="Vasya 3", Email="ololo@olo.ol" },
-                new UserInfo(){Id=3, Name="Vasya 4", Email="ololo@olo.ol" },
-                new UserInfo(){Id=4, Name="Vasya 5", Email="ololo@olo.ol" },
-                new UserInfo(){Id=5, Name="Vasya 6", Email="ololo@olo.ol" },
-                new UserInfo(){Id=6, Name="Vasya 7", Email="ololo@olo.ol" },
-                new UserInfo(){Id=7, Name="Vasya 8", Email="ololo@olo.ol" }
+                new UserInfo(){Id=0, UserName="Vasya 1", Email="ololo@olo.ol" },
+                new UserInfo(){Id=1, UserName="Vasya 2", Email="ololo@olo.ol" },
+                new UserInfo(){Id=2, UserName="Vasya 3", Email="ololo@olo.ol" },
+                new UserInfo(){Id=3, UserName="Vasya 4", Email="ololo@olo.ol" },
+                new UserInfo(){Id=4, UserName="Vasya 5", Email="ololo@olo.ol" },
+                new UserInfo(){Id=5, UserName="Vasya 6", Email="ololo@olo.ol" },
+                new UserInfo(){Id=6, UserName="Vasya 7", Email="ololo@olo.ol" },
+                new UserInfo(){Id=7, UserName="Vasya 8", Email="ololo@olo.ol" }
             });
             context.SaveChanges();
             base.Seed(context);

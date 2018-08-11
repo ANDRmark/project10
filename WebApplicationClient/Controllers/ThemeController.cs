@@ -1,10 +1,12 @@
-﻿using BLL.Interfaces;
+﻿using BLL.DTO;
+using BLL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApplicationClient.Models;
 
 namespace WebApplicationClient.Controllers
 {
@@ -13,11 +15,13 @@ namespace WebApplicationClient.Controllers
     {
         private readonly IMessageService messageService;
         private readonly IThemeService themeService;
+        private readonly IUserInfoService userInfoService;
 
-        public ThemeController(IMessageService messageService, IThemeService themeService)
+        public ThemeController(IMessageService messageService, IThemeService themeService, IUserInfoService userInfoService)
         {
             this.messageService = messageService;
             this.themeService = themeService;
+            this.userInfoService = userInfoService;
         }
 
 
@@ -34,6 +38,27 @@ namespace WebApplicationClient.Controllers
         public IHttpActionResult GetThemes()
         {
             return Ok(new { themes = this.themeService.GetAll() });
+        }
+
+
+        //Post api/Message/InsertNewMessage
+        [Authorize]
+        [Route("InsertNewTheme")]
+        [HttpPost]
+        public IHttpActionResult InsertNewTheme([FromBody] NewThemeBindingModel newTheme)
+        {
+            if (ModelState.IsValid)
+            {
+                ThemeDTO t = new ThemeDTO();
+                t.CreateDate = DateTime.Now;
+                t.Title = newTheme.ThemeName;
+                this.themeService.Insert(t);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
     }

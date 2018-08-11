@@ -10,5 +10,6 @@ namespace DAL.Interfaces
     public interface IUserInfoRepository:IRepository<UserInfo>
     {
         UserInfo GetByExternalId(string id);
+        UserInfo GetByUsername(string username);
     }
 }

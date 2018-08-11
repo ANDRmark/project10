@@ -52,7 +52,7 @@ namespace WebApplicationClient.Controllers
             }
             else
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
         }
 
