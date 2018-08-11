@@ -15,5 +15,10 @@ namespace DAL_EF.Repositories
         {
 
         }
+
+        UserInfo IUserInfoRepository.GetByExternalId(string id)
+        {
+            return this.table.Where(u => u.ExternalUserId == id).FirstOrDefault();
+        }
     }
 }

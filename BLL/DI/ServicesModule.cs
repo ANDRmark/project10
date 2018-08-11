@@ -13,6 +13,7 @@ namespace BLL.DI
         {
             this.Bind<BLL.Interfaces.IMessageService>().To<BLL.Services.MessageService>();
             this.Bind<BLL.Interfaces.IThemeService>().To<BLL.Services.ThemeService>();
+            this.Bind<BLL.Interfaces.IUserInfoService>().To<BLL.Services.UserInfoService>();
         }
     }
 }

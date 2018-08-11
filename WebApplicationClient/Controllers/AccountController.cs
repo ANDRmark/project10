@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using BLL.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -23,18 +24,23 @@ namespace WebApplicationClient.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private readonly IUserInfoService userInfoService;
+
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(IUserInfoService userInfoService)
         {
+            this.userInfoService = userInfoService;
         }
 
         public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
+            IUserInfoService userInfoService)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            this.userInfoService = userInfoService;
         }
 
         public ApplicationUserManager UserManager
@@ -336,6 +342,7 @@ namespace WebApplicationClient.Controllers
             {
                 return GetErrorResult(result);
             }
+            this.userInfoService.Insert(new BLL.DTO.UserInfoDTO() { ExternalUserId = user.Id, Name = user.UserName, Email = user.Email });
 
             return Ok();
         }

@@ -25,8 +25,13 @@ namespace BLL.DI
     {
         public AutoMapperProfileForDTOs()
         {
-            this.CreateMap<Message, MessageDTO>().ForMember(m => m.UserName, opt => opt.MapFrom(m => m.User.Name)).ReverseMap();
+            this.CreateMap<Message, MessageDTO>()
+                .ForMember(m => m.UserName, opt => opt.MapFrom(m => m.User.Name));
+            this.CreateMap<MessageDTO, Message>()
+                .ForMember(m => m.User, opt => opt.Ignore()).ForMember(m => m.Theme, opt => opt.Ignore());
+
             this.CreateMap<Theme, ThemeDTO>().ReverseMap();
+            this.CreateMap<UserInfo, UserInfoDTO>().ReverseMap();
         }
     }
 }

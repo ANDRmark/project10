@@ -11,9 +11,9 @@ namespace BLL.Interfaces
     {
         IEnumerable<MessageDTO> GetAll();
         MessageDTO GetById(int id);
-        void Insert(MessageDTO newCategory);
-        void Update(MessageDTO category);
-        IEnumerable<MessageDTO> GetByThemeId(int themeid);
+        void Insert(MessageDTO newMessage);
+        void Update(MessageDTO message);
+        IEnumerable<MessageDTO> GetByThemeId(int messageId);
         void Delete(int id);
     }
 }

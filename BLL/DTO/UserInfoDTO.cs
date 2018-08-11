@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Models
+namespace BLL.DTO
 {
-    public class UserInfo : Entity
+    public class UserInfoDTO : EntityDTO
     {
         public string Name { get; set; }
         public string Email { get; set; }
