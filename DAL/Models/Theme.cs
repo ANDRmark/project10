@@ -10,7 +10,7 @@ namespace DAL.Models
     {
         public string Title { get; set; }
 
-        public virtual ICollection<Message> Messages { get; set; }
+        public ICollection<Message> Messages { get; set; }
 
         public DateTime CreateDate { get; set; }
     }

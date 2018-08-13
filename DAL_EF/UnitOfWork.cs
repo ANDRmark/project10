@@ -15,6 +15,7 @@ namespace DAL_EF
         private readonly Lazy<IMessageRepository> lazyMessages;
         private readonly Lazy<IThemeRepository> lazyThemes;
         private readonly Lazy<IUserInfoRepository> lazyUsers;
+        private readonly Lazy<IRoleRepository> lazyRoles;
 
         private readonly Lazy<ForumDbContext> lazydbContext;
 
@@ -24,6 +25,7 @@ namespace DAL_EF
             this.lazyMessages = new Lazy<IMessageRepository>(() => new MessageRepository(this.dbContext), true);
             this.lazyThemes = new Lazy<IThemeRepository>(() => new ThemeRepository(this.dbContext), true);
             this.lazyUsers = new Lazy<IUserInfoRepository>(() => new UserInfoRepository(this.dbContext), true);
+            this.lazyRoles = new Lazy<IRoleRepository>(() => new RoleRepository(this.dbContext), true);
         }
 
         private ForumDbContext dbContext
@@ -55,6 +57,14 @@ namespace DAL_EF
             get
             {
                 return this.lazyUsers.Value;
+            }
+        }
+
+        IRoleRepository IUnitOfWork.Roles
+        {
+            get
+            {
+                return this.lazyRoles.Value;
             }
         }
 

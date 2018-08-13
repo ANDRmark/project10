@@ -335,7 +335,7 @@ namespace WebApplicationClient.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new User() { UserName = model.Email, Email = model.Email };
+            var user = new User() { UserName = model.UserName, Email = String.IsNullOrEmpty(model.Email)?null:model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -343,15 +343,8 @@ namespace WebApplicationClient.Controllers
             {
                 return GetErrorResult(result);
             }
-            //try
-            //{
-            //    this.userInfoService.Insert(new BLL.DTO.UserInfoDTO() { ExternalUserId = user.Id, UserName = user.UserName, Email = user.Email });
-            //}
-            //catch
-            //{
-            //    await UserManager.DeleteAsync(UserManager.FindByEmail(model.Email));
-            //    return GetErrorResult(new IdentityResult("Some error occured, user is not created"));
-            //}
+
+            UserManager.AddToRole(UserManager.FindByName(model.UserName).Id,"User");
             
 
             return Ok();

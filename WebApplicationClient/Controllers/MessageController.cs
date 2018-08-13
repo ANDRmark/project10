@@ -34,7 +34,7 @@ namespace WebApplicationClient.Controllers
         }
 
         //Post api/Message/InsertNewMessage
-        [Authorize]
+        [Authorize(Roles = "User")]
         [Route("InsertNewMessage")]
         [HttpPost]
         public IHttpActionResult InsertNewMessage([FromBody] NewMessageBindingModel newMessage)

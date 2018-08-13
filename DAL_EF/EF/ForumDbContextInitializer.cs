@@ -49,6 +49,11 @@ namespace DAL_EF.EF
                 new UserInfo(){Id=6, UserName="Vasya 7", Email="ololo@olo.ol" },
                 new UserInfo(){Id=7, UserName="Vasya 8", Email="ololo@olo.ol" }
             });
+            context.Roles.AddRange(new Role[] {
+                new Role() { Name="User"},
+                new Role() { Name="Moderator"},
+                new Role() {Name="Admin"}
+            });
             context.SaveChanges();
             base.Seed(context);
         }

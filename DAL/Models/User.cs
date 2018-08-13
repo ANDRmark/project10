@@ -12,5 +12,7 @@ namespace DAL.Models
         public string Email { get; set; }
         public string ExternalUserId { get; set; }
         public string PasswordHash { get; set; }
+
+        public ICollection<Role> Roles { get; set; }
     }
 }

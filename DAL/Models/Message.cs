@@ -11,10 +11,10 @@ namespace DAL.Models
         public string MessageBody { get; set; }
 
         public int ThemeId { get; set; }
-        public virtual Theme Theme { get; set; }
+        public Theme Theme { get; set; }
 
         public int UserId { get; set; }
-        public virtual UserInfo User { get; set; }
+        public UserInfo User { get; set; }
 
         public DateTime CreateDate { get; set; }
     }

@@ -42,11 +42,13 @@
   <ItemGroup>
     <Compile Include="Interfaces\IMessageRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IRoleRepository.cs" />
     <Compile Include="Interfaces\IThemeRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Interfaces\IUserInfoRepository.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Theme.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

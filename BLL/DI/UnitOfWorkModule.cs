@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ninject.Web.Common;
 
 namespace BLL.DI
 {
@@ -18,7 +19,7 @@ namespace BLL.DI
         public override void Load()
         {
             //Use Entity Framework as DAL
-            this.Bind<DAL.Interfaces.IUnitOfWork>().To<DAL_EF.UnitOfWork>().WithConstructorArgument(connectionString);
+            this.Bind<DAL.Interfaces.IUnitOfWork>().To<DAL_EF.UnitOfWork>().InRequestScope().WithConstructorArgument(connectionString);
             //Use ADO.NET as DAL
             //this.Bind<DAL.Interfaces.IUnitOfWork>().To<DAL_ADO.ADOUnitOfWork>().WithConstructorArgument(connectionString);
         }

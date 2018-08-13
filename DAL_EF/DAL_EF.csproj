@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="EF\ForumDbContext.cs" />
     <Compile Include="EF\ForumDbContextInitializer.cs" />
+    <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\ThemeRepository.cs" />
