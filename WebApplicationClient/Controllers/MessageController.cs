@@ -41,12 +41,13 @@ namespace WebApplicationClient.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserInfoDTO userinfo = this.userInfoService.GetByExternalId(User.Identity.GetUserId());
+                //UserInfoDTO userinfo = this.userInfoService.GetByExternalId(User.Identity.GetUserId());
                 MessageDTO m = new MessageDTO();
                 m.MessageBody = newMessage.MessageBody;
                 m.ThemeId = newMessage.ThemeId;
                 m.CreateDate = DateTime.Now;
-                m.UserId = userinfo.Id;
+                //m.UserId = userinfo.Id;
+                m.UserId = int.Parse(User.Identity.GetUserId());
                 this.messageService.Insert(m);
                 return Ok();
             }
