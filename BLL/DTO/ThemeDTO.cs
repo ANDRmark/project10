@@ -17,5 +17,8 @@ namespace BLL.DTO
         //public virtual ICollection<MessageDTO> Messages { get; set; }
 
         public DateTime CreateDate { get; set; }
+
+        public int SectionId { get; set; }
+        public SectionDTO Section { get; set; }
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IThemeRepository :IRepository<Theme>
+    public interface ISectionRepository: IRepository<Section>
     {
-        IEnumerable<Theme> GetBySection(int sectionId);
+        Section GetByIdWithThemes(int id);
     }
 }

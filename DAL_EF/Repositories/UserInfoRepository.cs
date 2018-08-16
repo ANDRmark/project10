@@ -34,12 +34,12 @@ namespace DAL_EF.Repositories
 
         UserInfo IUserInfoRepository.GetByExternalId(string id)
         {
-            return this.table.Where(u => u.ExternalUserId == id).FirstOrDefault();
+            return this.table.Include(u => u.Roles).Where(u => u.ExternalUserId == id).FirstOrDefault();
         }
 
-        UserInfo IUserInfoRepository.GetByUsername(string username)
+        IEnumerable<UserInfo> IUserInfoRepository.SearchByUsername(string username)
         {
-            return this.table.Where(u => u.UserName == username).FirstOrDefault();
+            return this.table.Include(u => u.Roles).Where(u => u.UserName == username);
         }
 
         public override void Update(UserInfo item)

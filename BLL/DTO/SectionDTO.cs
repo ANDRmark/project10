@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Models
+namespace BLL.DTO
 {
-    public class Theme : Entity
+    public class SectionDTO : EntityDTO
     {
         public string Title { get; set; }
-
         public DateTime CreateDate { get; set; }
 
-        public ICollection<Message> Messages { get; set; }
-        public int SectionId { get; set; }
-        public Section Section { get; set; }
+        public ICollection<ThemeDTO> Themes { get; set; }
     }
 }

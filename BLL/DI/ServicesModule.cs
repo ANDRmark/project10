@@ -15,6 +15,7 @@ namespace BLL.DI
             this.Bind<BLL.Interfaces.IThemeService>().To<BLL.Services.ThemeService>();
             this.Bind<BLL.Interfaces.IUserInfoService>().To<BLL.Services.UserInfoService>();
             this.Bind<BLL.Interfaces.IRoleService>().To<BLL.Services.RoleService>();
+            this.Bind<BLL.Interfaces.ISectionService>().To<BLL.Services.SectionService>();
         }
     }
 }

@@ -11,6 +11,9 @@ namespace WebApplicationClient.Models
     {
         [Required]
         public string ThemeName { get; set; }
+
+        [Required]
+        public int SectionId { get; set; }
     }
 
 }

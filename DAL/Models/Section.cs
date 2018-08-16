@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class Theme : Entity
+    public class Section : Entity
     {
         public string Title { get; set; }
-
         public DateTime CreateDate { get; set; }
 
-        public ICollection<Message> Messages { get; set; }
-        public int SectionId { get; set; }
-        public Section Section { get; set; }
+        public ICollection<Theme> Themes { get; set; }
     }
 }

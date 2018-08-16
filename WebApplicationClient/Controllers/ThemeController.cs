@@ -33,15 +33,15 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //GET api/Theme/GetThemes
-        [Route("GetThemes")]
-        public IHttpActionResult GetThemes()
+        //GET api/Theme/GetThemesBySection/1
+        [Route("GetThemesBySection/{sectionId:int}")]
+        public IHttpActionResult GetThemes(int sectionId)
         {
-            return Ok(new { themes = this.themeService.GetAll() });
+            return Ok(new { themes = this.themeService.GetBySection(sectionId) });
         }
 
 
-        //Post api/Message/InsertNewMessage
+        //Post api/Theme/InsertNewTheme/1
         [Authorize]
         [Route("InsertNewTheme")]
         [HttpPost]
@@ -52,6 +52,7 @@ namespace WebApplicationClient.Controllers
                 ThemeDTO t = new ThemeDTO();
                 t.CreateDate = DateTime.Now;
                 t.Title = newTheme.ThemeName;
+                t.SectionId = newTheme.SectionId;
                 this.themeService.Insert(t);
                 return Ok();
             }

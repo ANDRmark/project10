@@ -16,6 +16,7 @@ namespace DAL_EF.EF
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserInfo> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Section> Sections { get; set; }
 
         public ForumDbContext(string connectionString):base(connectionString)
         {
@@ -31,6 +32,7 @@ namespace DAL_EF.EF
             modelBuilder.Entity<Message>().HasRequired(m => m.User).WithMany().HasForeignKey(m => m.UserId).WillCascadeOnDelete(true);
             modelBuilder.Entity<UserInfo>().HasMany(u => u.Roles).WithMany(r => r.Users);
             modelBuilder.Entity<Role>().Property(r => r.Name).IsRequired().HasMaxLength(50).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("Index") { IsUnique = true } }));
+            modelBuilder.Entity<Section>().HasMany(s => s.Themes).WithRequired(t => t.Section).HasForeignKey(t => t.SectionId).WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
     }

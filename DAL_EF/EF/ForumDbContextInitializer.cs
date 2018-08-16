@@ -13,10 +13,10 @@ namespace DAL_EF.EF
         protected override void Seed(ForumDbContext context)
         {
             context.Themes.AddRange(new Theme[] {
-                new Theme(){ Id=1, Title="Theme 1", CreateDate=DateTime.Now},
-                new Theme(){ Id=2, Title="Theme 2", CreateDate=DateTime.Now},
-                new Theme(){ Id=3, Title="Theme 3", CreateDate=DateTime.Now},
-                new Theme(){ Id=4, Title="Theme 4", CreateDate=DateTime.Now}
+                new Theme(){ Id=1, Title="Theme 1", CreateDate=DateTime.Now, SectionId=1},
+                new Theme(){ Id=2, Title="Theme 2", CreateDate=DateTime.Now, SectionId=1},
+                new Theme(){ Id=3, Title="Theme 3", CreateDate=DateTime.Now, SectionId=2},
+                new Theme(){ Id=4, Title="Theme 4", CreateDate=DateTime.Now, SectionId=2}
             });
             context.Messages.AddRange(new Message[] {
                 new Message(){ Id = 1, ThemeId = 1, CreateDate=DateTime.Now, MessageBody="Message 1", UserId=0},
@@ -53,6 +53,10 @@ namespace DAL_EF.EF
                 new Role() { Name="User"},
                 new Role() { Name="Moderator"},
                 new Role() {Name="Admin"}
+            });
+            context.Sections.AddRange(new Section[] {
+                new Section(){ Id = 1, Title = "Section 1", CreateDate=DateTime.Now},
+                new Section(){ Id = 2, Title = "Section 2", CreateDate=DateTime.Now}
             });
             context.SaveChanges();
             base.Seed(context);

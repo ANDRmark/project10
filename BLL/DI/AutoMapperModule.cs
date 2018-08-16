@@ -29,6 +29,7 @@ namespace BLL.DI
             this.CreateMap<Theme, ThemeDTO>().ReverseMap();
             this.CreateMap<Role, RoleDTO>().ReverseMap().ForMember(r => r.Users, opt => opt.Ignore());
             this.CreateMap<UserInfo, UserInfoDTO>().ReverseMap();
+            this.CreateMap<Section, SectionDTO>();
         }
     }
 }

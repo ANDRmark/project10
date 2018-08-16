@@ -52,6 +52,7 @@
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\SectionRepository.cs" />
     <Compile Include="Repositories\ThemeRepository.cs" />
     <Compile Include="Repositories\UserInfoRepository.cs" />
     <Compile Include="UnitOfWork.cs" />

@@ -46,8 +46,13 @@ namespace BLL.Services
 
         UserInfoDTO IUserInfoService.GetByUsername(string username)
         {
-            DAL.Models.UserInfo user = this.unitOfWork.Users.GetByUsername(username);
+            DAL.Models.UserInfo user = this.unitOfWork.Users.SearchByUsername(username).FirstOrDefault();
             return this.mapper.Map<UserInfoDTO>(user);
+        }
+        IEnumerable<UserInfoDTO> IUserInfoService.SearchByUsername(string username)
+        {
+            IEnumerable<DAL.Models.UserInfo> user = this.unitOfWork.Users.SearchByUsername(username);
+            return this.mapper.Map< IEnumerable<UserInfoDTO>>(user);
         }
 
         void IUserInfoService.Insert(UserInfoDTO newUserInfo)

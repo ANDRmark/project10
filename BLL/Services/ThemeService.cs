@@ -51,5 +51,10 @@ namespace BLL.Services
             this.unitOfWork.Themes.Update(theme);
             this.unitOfWork.Save();
         }
+         IEnumerable<ThemeDTO> IThemeService.GetBySection(int sectionId)
+        {
+            IEnumerable<DAL.Models.Theme> themes = this.unitOfWork.Themes.GetBySection(sectionId);
+            return this.mapper.Map<IEnumerable<ThemeDTO>>(themes);
+        }
     }
 }

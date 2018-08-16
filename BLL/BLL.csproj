@@ -62,15 +62,18 @@
     <Compile Include="DTO\EntityDTO.cs" />
     <Compile Include="DTO\MessageDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />
+    <Compile Include="DTO\SectionDTO.cs" />
     <Compile Include="DTO\ThemeDTO.cs" />
     <Compile Include="DTO\UserInfoDTO.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
+    <Compile Include="Interfaces\ISectionService.cs" />
     <Compile Include="Interfaces\IThemeService.cs" />
     <Compile Include="Interfaces\IUserInfoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\SectionService.cs" />
     <Compile Include="Services\ThemeService.cs" />
     <Compile Include="Services\UserInfoService.cs" />
   </ItemGroup>

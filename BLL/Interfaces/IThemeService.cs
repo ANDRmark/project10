@@ -10,6 +10,7 @@ namespace BLL.Interfaces
      public interface IThemeService
     {
         IEnumerable<ThemeDTO> GetAll();
+        IEnumerable<ThemeDTO> GetBySection(int sectionId);
         ThemeDTO GetById(int id);
         void Insert(ThemeDTO newTheme);
         void Update(ThemeDTO theme);
