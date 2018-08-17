@@ -58,7 +58,7 @@ namespace WebApplicationClient.Controllers
 
 
         //Post api/Theme/InsertNewTheme/1
-        [Authorize]
+        [Authorize(Roles = "User")]
         [Route("InsertNewTheme")]
         [HttpPost]
         public IHttpActionResult InsertNewTheme([FromBody] NewThemeBindingModel newTheme)

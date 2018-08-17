@@ -48,6 +48,7 @@ namespace WebApplicationClient.Controllers
             }
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         [Route("InsertNewSection")]
         public IHttpActionResult InsertNewSection([FromBody] NewSectionBindingModel model)
