@@ -27,10 +27,18 @@ namespace WebApplicationClient.Controllers
 
 
         //GET api/Message/GetMessagesByThemeId/50
+        [HttpGet]
         [Route("GetMessagesByThemeId/{themeId:int}")]
         public IHttpActionResult GetMessages(int themeId)
         {
-            return Ok(new { theme = themeId, messages = this.messageService.GetByThemeId(themeId) });
+            if (ModelState.IsValid)
+            {
+                return Ok(new { theme = themeId, messages = this.messageService.GetByThemeId(themeId) });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         //Post api/Message/InsertNewMessage

@@ -22,7 +22,14 @@ namespace WebApplicationClient.Controllers
         [Route("GetSections")]
         public IHttpActionResult GetSections()
         {
-            return Ok(new { sections = this.sectionService.GetAll() });
+            if (ModelState.IsValid)
+            {
+                return Ok(new { sections = this.sectionService.GetAll() });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 
@@ -31,7 +38,14 @@ namespace WebApplicationClient.Controllers
         [Route("GetSection/{sectionId:int}")]
         public IHttpActionResult GetSection(int sectionId)
         {
-            return Ok(new { section = this.sectionService.GetById(sectionId) });
+            if (ModelState.IsValid)
+            {
+                return Ok(new { section = this.sectionService.GetById(sectionId) });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpPost]

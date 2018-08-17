@@ -13,7 +13,7 @@ using WebApplicationClient.IdentityInfrastructure;
 
 namespace WebApplicationClient.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
@@ -48,15 +48,35 @@ namespace WebApplicationClient.Controllers
         }
 
         [HttpGet]
-        [Route("GetUsesByUsername")]
-        public IHttpActionResult GetUsesByUsername(string username) 
+        [Route("GetUsesByUserName")]
+        public IHttpActionResult GetUsesByUserName(string username) 
         {
-            if (String.IsNullOrEmpty(username))
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                List<UserInfoDTO> users = this.userInfoService.SearchByUsername(username).ToList();
+                return Ok(new { users = users });
             }
-            List<UserInfoDTO> users =  this.userInfoService.SearchByUsername(username).ToList();
-            return Ok(new { users=users});
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        //GetUsesById
+
+        [HttpGet]
+        [Route("GetUsesById")]
+        public IHttpActionResult GetUsesById(int? userid)
+        {
+            if (ModelState.IsValid && userid != null)
+            {
+                List<UserInfoDTO> users = new UserInfoDTO[] { this.userInfoService.GetById(userid.Value) }.ToList();
+                return Ok(new { users = users });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }

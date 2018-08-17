@@ -27,17 +27,33 @@ namespace WebApplicationClient.Controllers
 
         //GET api/Theme/GetTheme/3
         [Route("GetTheme/{themeId:int}")]
+        [HttpGet]
         public IHttpActionResult GetTheme(int themeId)
         {
-            return Ok(new { theme = this.themeService.GetById(themeId) });
+            if (ModelState.IsValid)
+            {
+                return Ok(new { theme = this.themeService.GetById(themeId) });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 
         //GET api/Theme/GetThemesBySection/1
         [Route("GetThemesBySection/{sectionId:int}")]
+        [HttpGet]
         public IHttpActionResult GetThemes(int sectionId)
         {
-            return Ok(new { themes = this.themeService.GetBySection(sectionId) });
+            if (ModelState.IsValid)
+            {
+                return Ok(new { themes = this.themeService.GetBySection(sectionId) });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
 

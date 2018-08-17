@@ -39,7 +39,7 @@ namespace DAL_EF.Repositories
 
         IEnumerable<UserInfo> IUserInfoRepository.SearchByUsername(string username)
         {
-            return this.table.Include(u => u.Roles).Where(u => u.UserName == username);
+            return this.table.Include(u => u.Roles).Where(u => u.UserName.ToLower().IndexOf(username.ToLower()) > -1);
         }
 
         public override void Update(UserInfo item)
