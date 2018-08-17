@@ -41,7 +41,7 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        //Post api/Message/InsertNewMessage
+        //POST api/Message/InsertNewMessage
         [Authorize(Roles = "User")]
         [Route("InsertNewMessage")]
         [HttpPost]

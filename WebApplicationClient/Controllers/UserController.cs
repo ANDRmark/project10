@@ -10,10 +10,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplicationClient.IdentityInfrastructure;
+using WebApplicationClient.Models;
 
 namespace WebApplicationClient.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
@@ -47,6 +48,7 @@ namespace WebApplicationClient.Controllers
             }
         }
 
+        // GET  /api/User/GetUsesByUserName&username=andr
         [HttpGet]
         [Route("GetUsesByUserName")]
         public IHttpActionResult GetUsesByUserName(string username) 
@@ -62,16 +64,94 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        //GetUsesById
-
+        // GET  /api/User/GetUsesById&userid=3
         [HttpGet]
         [Route("GetUsesById")]
         public IHttpActionResult GetUsesById(int? userid)
         {
             if (ModelState.IsValid && userid != null)
             {
-                List<UserInfoDTO> users = new UserInfoDTO[] { this.userInfoService.GetById(userid.Value) }.ToList();
+                UserInfoDTO user = this.userInfoService.GetById(userid.Value);
+                List<UserInfoDTO> users = new List<UserInfoDTO>();
+                if(user != null)
+                {
+                    users.Add(user);
+                }
                 return Ok(new { users = users });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        // GET  /api/User/GetAllUsers
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public IHttpActionResult GetAllUsers()
+        {
+            if (ModelState.IsValid)
+            {
+                List<UserInfoDTO> users = this.userInfoService.GetAll().ToList();
+                return Ok(new { users = users });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        // POST  /api/User/SetRoles
+        [HttpPost]
+        [Route("SetRoles")]
+        public IHttpActionResult SetRoles([FromBody] SetRolesBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                UserInfoDTO user =  this.userInfoService.GetById(model.UserId);
+                if (user == null) return BadRequest("User not found");
+                if (model.Roles.IsUser)
+                {
+                    UserManager.AddToRole(user.Id, "User");
+                }
+                else
+                {
+                    UserManager.RemoveFromRole(user.Id, "User");
+                }
+                if (model.Roles.IsModerator)
+                {
+                    UserManager.AddToRole(user.Id, "Moderator");
+                }
+                else
+                {
+                    UserManager.RemoveFromRole(user.Id, "Moderator");
+                }
+                if (model.Roles.IsAdmin)
+                {
+                    UserManager.AddToRole(user.Id, "Admin");
+                }
+                else
+                {
+                    UserManager.RemoveFromRole(user.Id, "Admin");
+                }
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        //DeleteUser
+        // POST  /api/User/DeleteUser
+        [HttpPost]
+        [Route("DeleteUser")]
+        public IHttpActionResult DeleteUser([FromBody] DeleteUserBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.userInfoService.Delete(model.UserId);
+                return Ok();
             }
             else
             {

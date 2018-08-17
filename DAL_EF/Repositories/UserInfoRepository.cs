@@ -20,7 +20,7 @@ namespace DAL_EF.Repositories
 
         public override IEnumerable<UserInfo> GetAll()
         {
-            return this.table.Include(u => u.Roles).ToList();
+            return this.table.Include(u => u.Roles);
         }
         public override UserInfo GetById(int id)
         {

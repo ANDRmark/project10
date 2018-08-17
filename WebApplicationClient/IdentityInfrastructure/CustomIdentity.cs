@@ -20,10 +20,12 @@ namespace WebApplicationClient.IdentityInfrastructure
         }
         public static CustomUserManager Create(IdentityFactoryOptions<CustomUserManager> options, IOwinContext context)
         {
-            return new CustomUserManager(
+            var manager =  new CustomUserManager(
                 new CustomUserStore(
                     (IUserInfoService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserInfoService)),
                     (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService))));
+            manager.PasswordValidator = new PasswordValidator();
+            return manager;
         }
 
     }
@@ -192,6 +194,7 @@ namespace WebApplicationClient.IdentityInfrastructure
             if (role != null && user.Roles.All(r => r.Id != role.Id))
             {
                 user.Roles.Add(role);
+                this.userInfoService.Update(user);
             }
 
             return Task.FromResult(0);
@@ -208,9 +211,9 @@ namespace WebApplicationClient.IdentityInfrastructure
                 throw new ArgumentNullException("roleName");
             }
             var role = this.roleService.GetByName(roleName);
-            if (role != null && user.Roles.Any(r => r.Id == role.Id))
+            if (role != null)
             {
-                user.Roles.Remove(role);
+                user.Roles.Remove(user.Roles.FirstOrDefault(r => r.Id == role.Id));
                 this.userInfoService.Update(user);
             }
             return Task.FromResult(0);
