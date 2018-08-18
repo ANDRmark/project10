@@ -37,9 +37,13 @@ namespace DAL_EF.Repositories
             return this.table.Include(u => u.Roles).Where(u => u.ExternalUserId == id).FirstOrDefault();
         }
 
-        IEnumerable<UserInfo> IUserInfoRepository.SearchByUsername(string username)
+        IEnumerable<UserInfo> IUserInfoRepository.SearchByUsernamePart(string usernamePart)
         {
-            return this.table.Include(u => u.Roles).Where(u => u.UserName.ToLower().IndexOf(username.ToLower()) > -1);
+            return this.table.Include(u => u.Roles).Where(u => u.UserName.ToLower().IndexOf(usernamePart.ToLower()) > -1);
+        }
+        UserInfo IUserInfoRepository.GetByUsername(string username)
+        {
+            return this.table.Include(u => u.Roles).Where(u => u.UserName ==username).FirstOrDefault();
         }
 
         public override void Update(UserInfo item)
@@ -55,5 +59,6 @@ namespace DAL_EF.Repositories
                 //original.Roles = item.Roles;
             }
         }
+
     }
 }

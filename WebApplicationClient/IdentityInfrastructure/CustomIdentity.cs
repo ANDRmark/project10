@@ -249,6 +249,7 @@ namespace WebApplicationClient.IdentityInfrastructure
 
             return Task.FromResult(isInRole);
         }
+
         #endregion
 
     }

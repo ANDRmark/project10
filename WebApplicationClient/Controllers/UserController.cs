@@ -55,7 +55,7 @@ namespace WebApplicationClient.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<UserInfoDTO> users = this.userInfoService.SearchByUsername(username).ToList();
+                List<UserInfoDTO> users = this.userInfoService.SearchByUsernamePart(username).ToList();
                 return Ok(new { users = users });
             }
             else
@@ -134,6 +134,7 @@ namespace WebApplicationClient.Controllers
                 {
                     UserManager.RemoveFromRole(user.Id, "Admin");
                 }
+                UserManager.UpdateSecurityStamp(user.Id);
                 return Ok();
             }
             else
