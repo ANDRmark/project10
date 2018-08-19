@@ -11,9 +11,11 @@ namespace DAL.Interfaces
     {
         IThemeRepository Themes { get; }
         IMessageRepository Messages { get; }
-        IUserInfoRepository Users { get;  }
+        IUserInfoRepository Users { get; }
         IRoleRepository Roles { get; }
-        ISectionRepository Sections { get;}
+        ISectionRepository Sections { get; }
+        IClientsRepository Clients { get; }
+        IRefreshTokensRepository RefreshTokens { get;}
         void Save();
     }
 }

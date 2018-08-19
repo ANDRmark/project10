@@ -17,6 +17,8 @@ namespace DAL_EF.EF
         public DbSet<UserInfo> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public ForumDbContext(string connectionString):base(connectionString)
         {

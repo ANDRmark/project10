@@ -42,9 +42,10 @@ namespace WebApplicationClient
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(5),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true,
+                RefreshTokenProvider = new SimpleRefreshTokenProvider()
             };
 
             // Enable the application to use bearer tokens to authenticate users

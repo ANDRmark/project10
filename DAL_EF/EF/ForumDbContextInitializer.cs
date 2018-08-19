@@ -58,6 +58,17 @@ namespace DAL_EF.EF
                 new Section(){ Id = 1, Title = "Section 1", CreateDate=DateTime.Now},
                 new Section(){ Id = 2, Title = "Section 2", CreateDate=DateTime.Now}
             });
+            context.Clients.Add(new Client()
+            {
+                Id = 1,
+                Active = true,
+                AllowedOrigin = "*",
+                ApplicationType = ApplicationTypes.JavaScript,
+                Name = "Angular Frontend for Forum",
+                RefreshTokenLifeTime = 7200,
+                Secret = null
+            }
+                );
             context.SaveChanges();
             base.Seed(context);
         }

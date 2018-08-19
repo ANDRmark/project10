@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IClientsRepository.cs" />
     <Compile Include="Interfaces\IMessageRepository.cs" />
+    <Compile Include="Interfaces\IRefreshTokensRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IRoleRepository.cs" />
     <Compile Include="Interfaces\ISectionRepository.cs" />
@@ -49,6 +51,7 @@
     <Compile Include="Interfaces\IUserInfoRepository.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\Theme.cs" />
