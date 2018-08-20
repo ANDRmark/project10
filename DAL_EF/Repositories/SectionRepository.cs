@@ -23,5 +23,10 @@ namespace DAL_EF.Repositories
         {
             return this.table.Include(s => s.Themes).FirstOrDefault(s => s.Id == id);
         }
+
+        IEnumerable<Section> ISectionRepository.SearchByNamePart(string sectionNamePart)
+        {
+            return this.table.Where(s => s.Title.ToLower().IndexOf(sectionNamePart.ToLower()) > -1);
+        }
     }
 }

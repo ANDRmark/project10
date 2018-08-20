@@ -33,14 +33,14 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //GET api/Section/GetSection/3
+        //GET api/Section/GetSection&sectionId=3
         [HttpGet]
-        [Route("GetSection/{sectionId:int}")]
-        public IHttpActionResult GetSection(int sectionId)
+        [Route("GetSection")]
+        public IHttpActionResult GetSection(int? sectionId)
         {
             if (ModelState.IsValid)
             {
-                return Ok(new { section = this.sectionService.GetById(sectionId) });
+                return Ok(new { section = this.sectionService.GetById(sectionId.Value) });
             }
             else
             {
@@ -48,6 +48,23 @@ namespace WebApplicationClient.Controllers
             }
         }
 
+        //GET api/Section/GetSectionsByNamePart&sectionName=autom
+        [HttpGet]
+        [Route("GetSectionsByNamePart")]
+        public IHttpActionResult GetSectionsByNamePart(string sectionName)
+        {
+            if (ModelState.IsValid)
+            {
+                List<SectionDTO> sections = this.sectionService.SearchByNamePart(sectionName).ToList();
+                return Ok(new { sections = sections });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        //POST api/Section/InsertNewSection
         [Authorize(Roles = "User")]
         [HttpPost]
         [Route("InsertNewSection")]
@@ -59,6 +76,45 @@ namespace WebApplicationClient.Controllers
                 section.Title = model.SectionName;
                 section.CreateDate = DateTime.Now;
                 this.sectionService.Insert(section);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //POST api/Section/RenameSection
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        [Route("RenameSection")]
+        public IHttpActionResult RenameSection([FromBody] RenameSectionBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                SectionDTO section = this.sectionService.GetById(model.SectionId);
+                section.Title = model.NewSectionName;
+                this.sectionService.Update(section);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //DeleteSection
+        //POST api/Section/DeleteSection
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        [Route("DeleteSection")]
+        public IHttpActionResult DeleteSection([FromBody] DeleteSectionBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.sectionService.Delete(model.SectionId);
                 return Ok();
             }
             else

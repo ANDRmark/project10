@@ -9,4 +9,16 @@ namespace WebApplicationClient.Models
         [Required]
         public string SectionName { get; set; }
     }
+    public class RenameSectionBindingModel
+    {
+        [Required]
+        public int SectionId { get; set; }
+        [Required]
+        public string NewSectionName { get; set; }
+    }
+    public class DeleteSectionBindingModel
+    {
+        [Required]
+        public int SectionId { get; set; }
+    }
 }

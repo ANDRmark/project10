@@ -12,6 +12,7 @@ namespace BLL.Interfaces
         IEnumerable<SectionDTO> GetAll();
         SectionDTO GetById(int id);
         SectionDTO GetByIdWithThemes(int id);
+        IEnumerable<SectionDTO> SearchByNamePart(string sectionname);
         void Insert(SectionDTO newSection);
         void Update(SectionDTO section);
         void Delete(int id);

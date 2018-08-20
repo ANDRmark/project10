@@ -50,8 +50,8 @@ namespace WebApplicationClient.Controllers
 
         // GET  /api/User/GetUsesByUserName&username=andr
         [HttpGet]
-        [Route("GetUsesByUserName")]
-        public IHttpActionResult GetUsesByUserName(string username) 
+        [Route("GetUsersByUserNamePart")]
+        public IHttpActionResult GetUsersByUserNamePart(string username) 
         {
             if (ModelState.IsValid)
             {
@@ -66,18 +66,13 @@ namespace WebApplicationClient.Controllers
 
         // GET  /api/User/GetUsesById&userid=3
         [HttpGet]
-        [Route("GetUsesById")]
-        public IHttpActionResult GetUsesById(int? userid)
+        [Route("GetUserById")]
+        public IHttpActionResult GetUserById(int? userid)
         {
-            if (ModelState.IsValid && userid != null)
+            if (ModelState.IsValid)
             {
                 UserInfoDTO user = this.userInfoService.GetById(userid.Value);
-                List<UserInfoDTO> users = new List<UserInfoDTO>();
-                if(user != null)
-                {
-                    users.Add(user);
-                }
-                return Ok(new { users = users });
+                return Ok(new { user = user });
             }
             else
             {
@@ -134,7 +129,6 @@ namespace WebApplicationClient.Controllers
                 {
                     UserManager.RemoveFromRole(user.Id, "Admin");
                 }
-                UserManager.UpdateSecurityStamp(user.Id);
                 return Ok();
             }
             else

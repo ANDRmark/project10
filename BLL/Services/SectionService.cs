@@ -43,12 +43,19 @@ namespace BLL.Services
             return this.mapper.Map<SectionDTO>(section);
         }
 
+        IEnumerable<SectionDTO> ISectionService.SearchByNamePart(string sectionNamePart)
+        {
+            IEnumerable<DAL.Models.Section> sections = this.unitOfWork.Sections.SearchByNamePart(sectionNamePart);
+            return this.mapper.Map<IEnumerable<SectionDTO>>(sections);
+        }
+
         void ISectionService.Insert(SectionDTO newSection)
         {
             DAL.Models.Section section = this.mapper.Map<DAL.Models.Section>(newSection);
             this.unitOfWork.Sections.Insert(section);
             this.unitOfWork.Save();
         }
+
 
         void ISectionService.Update(SectionDTO sectionToUpdate)
         {
