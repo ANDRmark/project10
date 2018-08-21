@@ -56,5 +56,6 @@ namespace BLL.Services
             IEnumerable<DAL.Models.Theme> themes = this.unitOfWork.Themes.GetBySection(sectionId);
             return this.mapper.Map<IEnumerable<ThemeDTO>>(themes);
         }
+
     }
 }

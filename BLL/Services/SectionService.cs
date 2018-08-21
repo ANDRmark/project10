@@ -37,11 +37,6 @@ namespace BLL.Services
             return this.mapper.Map<SectionDTO>(section);
         }
 
-        SectionDTO ISectionService.GetByIdWithThemes(int id)
-        {
-            DAL.Models.Section section = this.unitOfWork.Sections.GetByIdWithThemes(id);
-            return this.mapper.Map<SectionDTO>(section);
-        }
 
         IEnumerable<SectionDTO> ISectionService.SearchByNamePart(string sectionNamePart)
         {

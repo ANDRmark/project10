@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DAL_EF.Repositories
 {
@@ -17,6 +18,7 @@ namespace DAL_EF.Repositories
         {
 
         }
+
 
         IEnumerable<Theme> IThemeRepository.GetBySection(int sectionId)
         {

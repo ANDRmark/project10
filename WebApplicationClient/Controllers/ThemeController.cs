@@ -44,7 +44,7 @@ namespace WebApplicationClient.Controllers
         //GET api/Theme/GetThemesBySection/1
         [Route("GetThemesBySection/{sectionId:int}")]
         [HttpGet]
-        public IHttpActionResult GetThemes(int sectionId)
+        public IHttpActionResult GetThemesBySection(int sectionId)
         {
             if (ModelState.IsValid)
             {
@@ -56,8 +56,26 @@ namespace WebApplicationClient.Controllers
             }
         }
 
+        //GetAllThemes
 
-        //Post api/Theme/InsertNewTheme/1
+
+        //GET api/Theme/GetAllThemes
+        [Route("GetAllThemes")]
+        [HttpGet]
+        public IHttpActionResult GetAllThemes()
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(new { themes = this.themeService.GetAll() });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //POST api/Theme/InsertNewTheme/1
         [Authorize(Roles = "User")]
         [Route("InsertNewTheme")]
         [HttpPost]
