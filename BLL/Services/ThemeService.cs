@@ -57,5 +57,10 @@ namespace BLL.Services
             return this.mapper.Map<IEnumerable<ThemeDTO>>(themes);
         }
 
+        IEnumerable<ThemeDTO> IThemeService.SearchThemesByNamePart(string namePart)
+        {
+            IEnumerable<DAL.Models.Theme> themes = this.unitOfWork.Themes.SearchThemesByNamePart(namePart);
+            return this.mapper.Map<IEnumerable<ThemeDTO>>(themes);
+        }
     }
 }

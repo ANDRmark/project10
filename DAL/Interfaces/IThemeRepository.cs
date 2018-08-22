@@ -10,5 +10,6 @@ namespace DAL.Interfaces
     public interface IThemeRepository :IRepository<Theme>
     {
         IEnumerable<Theme> GetBySection(int sectionId);
+        IEnumerable<Theme>  SearchThemesByNamePart(string namePart);
     }
 }

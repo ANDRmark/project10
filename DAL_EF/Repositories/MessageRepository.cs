@@ -20,7 +20,21 @@ namespace DAL_EF.Repositories
 
         IEnumerable<Message> IMessageRepository.GetMessagesByThemeIdWithUsers(int themeId)
         {
-            return this.table.Where(m => m.ThemeId == themeId).Include(m => m.User).ToList();
+            return this.table.Include(m => m.User).Where(m => m.ThemeId == themeId).ToList();
+        }
+
+        IEnumerable<Message> IMessageRepository.Search(int themeId, string userName, string messageBody)
+        {
+            IQueryable<Message> query = this.table.Include(m => m.User).Where(m => m.ThemeId == themeId);
+            if(userName != null)
+            {
+                query = query.Where(m => m.User.UserName == userName);
+            }
+            if(messageBody != null)
+            {
+                query = query.Where(m => m.MessageBody.ToLower().IndexOf(messageBody.ToLower()) > -1);
+            }
+            return query.ToList();
         }
     }
 }

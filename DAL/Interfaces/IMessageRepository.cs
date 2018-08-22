@@ -10,5 +10,6 @@ namespace DAL.Interfaces
     public interface IMessageRepository : IRepository<Message>
     {
         IEnumerable<Message> GetMessagesByThemeIdWithUsers(int themeId);
+        IEnumerable<Message> Search(int themeId, string userName, string messageBody);
     }
 }

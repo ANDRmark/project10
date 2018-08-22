@@ -56,7 +56,6 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        //GetAllThemes
 
 
         //GET api/Theme/GetAllThemes
@@ -67,6 +66,21 @@ namespace WebApplicationClient.Controllers
             if (ModelState.IsValid)
             {
                 return Ok(new { themes = this.themeService.GetAll() });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        //GET api/Theme/SearchThemesByNamePart&namePart
+        [Route("SearchThemesByNamePart")]
+        [HttpGet]
+        public IHttpActionResult SearchThemesByNamePart(string namePart)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(new { themes = this.themeService.SearchThemesByNamePart(namePart) });
             }
             else
             {
@@ -88,6 +102,48 @@ namespace WebApplicationClient.Controllers
                 t.Title = newTheme.ThemeName;
                 t.SectionId = newTheme.SectionId;
                 this.themeService.Insert(t);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //POST api/Theme/UpdateTheme
+        [Route("UpdateTheme")]
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        public IHttpActionResult UpdateTheme([FromBody] ThemeToUpdateBindingModel themetoUpdate)
+        {
+            if (ModelState.IsValid)
+            {
+                ThemeDTO t = new ThemeDTO();
+                t.Id = themetoUpdate.Id;
+                t.CreateDate = themetoUpdate.CreateDate;
+                t.Title = themetoUpdate.Title;
+                t.SectionId = themetoUpdate.SectionId;
+                this.themeService.Update(t);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //ThemeId
+        //POST api/Theme/DeleteTheme
+        [Route("DeleteTheme")]
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        public IHttpActionResult DeleteTheme([FromBody] ThemeDeleteBindingModel themetoDelete)
+        {
+            if (ModelState.IsValid)
+            {
+                this.themeService.Delete(themetoDelete.ThemeId);
                 return Ok();
             }
             else

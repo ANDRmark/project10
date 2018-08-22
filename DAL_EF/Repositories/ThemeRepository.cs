@@ -24,5 +24,10 @@ namespace DAL_EF.Repositories
         {
             return this.table.Where(t => t.SectionId == sectionId).ToList();
         }
+
+        IEnumerable<Theme> IThemeRepository.SearchThemesByNamePart(string namePart)
+        {
+            return this.table.Where(t => t.Title.ToLower().IndexOf(namePart.ToLower()) > -1);
+        }
     }
 }

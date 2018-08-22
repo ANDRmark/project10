@@ -55,5 +55,11 @@ namespace BLL.Services
             IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.GetMessagesByThemeIdWithUsers(themeid);
             return this.mapper.Map<IEnumerable<MessageDTO>>(messages);
         }
+
+        IEnumerable<MessageDTO> IMessageService.Search(int themeId, string userName, string messageBody)
+        {
+            IEnumerable<DAL.Models.Message> messages = this.unitOfWork.Messages.Search(themeId,userName: userName, messageBody: messageBody);
+            return this.mapper.Map<IEnumerable<MessageDTO>>(messages);
+        }
     }
 }

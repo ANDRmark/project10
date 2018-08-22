@@ -11,6 +11,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<MessageDTO> GetAll();
         MessageDTO GetById(int id);
+        IEnumerable<MessageDTO> Search(int themeId, string userName = null, string messageBody = null);
         void Insert(MessageDTO newMessage);
         void Update(MessageDTO message);
         IEnumerable<MessageDTO> GetByThemeId(int messageId);

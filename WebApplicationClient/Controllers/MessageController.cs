@@ -25,6 +25,21 @@ namespace WebApplicationClient.Controllers
             this.userInfoService = userInfoService;
         }
 
+        //GetMessage
+        //GET api/Message/GetMessage/50
+        [HttpGet]
+        [Route("GetMessage/{messageId:int}")]
+        public IHttpActionResult GetMessage(int messageId)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(new { message = this.messageService.GetById(messageId) });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
 
         //GET api/Message/GetMessagesByThemeId/50
         [HttpGet]
@@ -49,12 +64,10 @@ namespace WebApplicationClient.Controllers
         {
             if (ModelState.IsValid)
             {
-                //UserInfoDTO userinfo = this.userInfoService.GetByExternalId(User.Identity.GetUserId());
                 MessageDTO m = new MessageDTO();
                 m.MessageBody = newMessage.MessageBody;
                 m.ThemeId = newMessage.ThemeId;
                 m.CreateDate = DateTime.Now;
-                //m.UserId = userinfo.Id;
                 m.UserId = int.Parse(User.Identity.GetUserId());
                 this.messageService.Insert(m);
                 return Ok();
@@ -65,6 +78,62 @@ namespace WebApplicationClient.Controllers
             }
         }
 
+        //GET api/Message/SearchMessages&themeId=2
+        [HttpGet]
+        [Route("SearchMessages")]
+        public IHttpActionResult SearchMessages(int? themeId, string userName = null, string messageBody = null)
+        {
+            if (ModelState.IsValid)
+            {
+                var messages = this.messageService.Search(themeId.Value, userName: userName, messageBody:messageBody);
+                return Ok(new { theme = themeId, messages = messages });
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        //POST api/Message/UpdateMessage
+        [Route("UpdateMessage")]
+        [Authorize(Roles = "Moderator")]
+        [HttpPost]
+        public IHttpActionResult UpdateMessage([FromBody] MessageToUpdateBindingModel messagetoUpdate)
+        {
+            if (ModelState.IsValid)
+            {
+                MessageDTO m = new MessageDTO();
+                m.Id = messagetoUpdate.Id;
+                m.MessageBody = messagetoUpdate.MessageBody;
+                m.ThemeId = messagetoUpdate.ThemeId;
+                m.CreateDate = messagetoUpdate.CreateDate;
+                m.UserId = int.Parse(User.Identity.GetUserId());
+                this.messageService.Update(m);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        //POST api/Message/DeleteMessage
+        [HttpPost]
+        [Route("DeleteMessage")]
+        [Authorize(Roles = "Moderator")]
+        public IHttpActionResult DeleteMessage([FromBody] DeleteMessageBindingModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.messageService.Delete(model.MessageId);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
 
     }
 }

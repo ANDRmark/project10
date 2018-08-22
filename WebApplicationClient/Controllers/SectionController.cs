@@ -105,7 +105,6 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //DeleteSection
         //POST api/Section/DeleteSection
         [Authorize(Roles = "Moderator")]
         [HttpPost]
