@@ -18,13 +18,40 @@ namespace WebApplicationClient.Models
         [Required]
         public int UserId { get; set; }
         [Required]
-        public RolesSet Roles {get; set;}
+        public RolesSet Roles { get; set; }
+    }
 
     public class RolesSet
     {
+        [Required]
         public bool IsUser { get; set; }
+
+        [Required]
         public bool IsModerator { get; set; }
+
+        [Required]
         public bool IsAdmin { get; set; }
     }
+
+    public class UpdateUserBindingModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
+        public string UserName { get; set; }
+
+        public string Email { get; set; }
+
+        public string ExternalUserId { get; set; }
+
+        public string PasswordHash { get; set; }
+
+
+        public virtual List<RoleBindingModel> Roles { get; set; }
+    }
+    public class RoleBindingModel
+    {
+        public string Name { get; set; }
     }
 }

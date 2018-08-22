@@ -16,6 +16,17 @@ namespace WebApplicationClient.Models
         [Required]
         public string NewSectionName { get; set; }
     }
+    public class UpdateSectionBindingModel
+    {
+        [Required]
+        public int Id { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
+        [Required]
+        public DateTime CreateDate { get; set; }
+    }
     public class DeleteSectionBindingModel
     {
         [Required]

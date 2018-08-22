@@ -26,9 +26,9 @@ namespace WebApplicationClient.Controllers
         }
 
         //GetMessage
-        //GET api/Message/GetMessage/50
+        //GET api/Message/50
         [HttpGet]
-        [Route("GetMessage/{messageId:int}")]
+        [Route("{messageId:int}")]
         public IHttpActionResult GetMessage(int messageId)
         {
             if (ModelState.IsValid)
@@ -56,9 +56,9 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        //POST api/Message/InsertNewMessage
+        //POST api/Message
         [Authorize(Roles = "User")]
-        [Route("InsertNewMessage")]
+        [Route("")]
         [HttpPost]
         public IHttpActionResult InsertNewMessage([FromBody] NewMessageBindingModel newMessage)
         {
@@ -94,10 +94,10 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        //POST api/Message/UpdateMessage
-        [Route("UpdateMessage")]
+        //PUT api/Message
         [Authorize(Roles = "Moderator")]
-        [HttpPost]
+        [Route("")]
+        [HttpPut]
         public IHttpActionResult UpdateMessage([FromBody] MessageToUpdateBindingModel messagetoUpdate)
         {
             if (ModelState.IsValid)
@@ -118,15 +118,15 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //POST api/Message/DeleteMessage
-        [HttpPost]
-        [Route("DeleteMessage")]
+        //DELETE api/Message/2
+        [HttpDelete]
+        [Route("{MessageId:int}")]
         [Authorize(Roles = "Moderator")]
-        public IHttpActionResult DeleteMessage([FromBody] DeleteMessageBindingModel model)
+        public IHttpActionResult DeleteMessage(int MessageId)
         {
             if (ModelState.IsValid)
             {
-                this.messageService.Delete(model.MessageId);
+                this.messageService.Delete(MessageId);
                 return Ok();
             }
             else

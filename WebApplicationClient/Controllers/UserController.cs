@@ -19,6 +19,7 @@ namespace WebApplicationClient.Controllers
     public class UserController : ApiController
     {
         private readonly IUserInfoService userInfoService;
+        private readonly IRoleService roleService;
 
         private const string LocalLoginProvider = "Local";
         private CustomUserManager _userManager;
@@ -48,10 +49,10 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        // GET  /api/User/GetUsesByUserName&username=andr
+        // GET  /api/User/SearchUsersByUserNamePart&username=andr
         [HttpGet]
-        [Route("GetUsersByUserNamePart")]
-        public IHttpActionResult GetUsersByUserNamePart(string username) 
+        [Route("SearchUsersByUserNamePart")]
+        public IHttpActionResult SearchUsersByUserNamePart(string username) 
         {
             if (ModelState.IsValid)
             {
@@ -64,14 +65,14 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        // GET  /api/User/GetUsesById&userid=3
+        // GET  /api/User/3
         [HttpGet]
-        [Route("GetUserById")]
-        public IHttpActionResult GetUserById(int? userid)
+        [Route("{userid:int}")]
+        public IHttpActionResult GetUserById(int userid)
         {
             if (ModelState.IsValid)
             {
-                UserInfoDTO user = this.userInfoService.GetById(userid.Value);
+                UserInfoDTO user = this.userInfoService.GetById(userid);
                 return Ok(new { user = user });
             }
             else
@@ -80,9 +81,9 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        // GET  /api/User/GetAllUsers
+        // GET  /api/User/GetAll
         [HttpGet]
-        [Route("GetAllUsers")]
+        [Route("GetAll")]
         public IHttpActionResult GetAllUsers()
         {
             if (ModelState.IsValid)
@@ -137,15 +138,41 @@ namespace WebApplicationClient.Controllers
             }
         }
 
-        //DeleteUser
-        // POST  /api/User/DeleteUser
-        [HttpPost]
-        [Route("DeleteUser")]
-        public IHttpActionResult DeleteUser([FromBody] DeleteUserBindingModel model)
+        // POST  /api/User
+        [HttpPut]
+        [Route("")]
+        public IHttpActionResult UpdateUser([FromBody] UpdateUserBindingModel model)
         {
             if (ModelState.IsValid)
             {
-                this.userInfoService.Delete(model.UserId);
+                UserInfoDTO user = this.userInfoService.GetById(model.Id);
+                if (user == null) return BadRequest("User not found");
+
+                user.Roles = new List<RoleDTO>();
+                foreach(var role in model.Roles)
+                {
+                    user.Roles.Add(new RoleDTO() { Name=role.Name});
+                }
+                this.userInfoService.Update(user);
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+
+        // DELETE  /api/User/7
+        [HttpDelete]
+        [Route("{userId:int}")]
+        public IHttpActionResult DeleteUser(int userId)
+        {
+            if (ModelState.IsValid)
+            {
+                this.userInfoService.Delete(userId);
                 return Ok();
             }
             else

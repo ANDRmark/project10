@@ -25,8 +25,8 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //GET api/Theme/GetTheme/3
-        [Route("GetTheme/{themeId:int}")]
+        //GET api/Theme/3
+        [Route("{themeId:int}")]
         [HttpGet]
         public IHttpActionResult GetTheme(int themeId)
         {
@@ -89,9 +89,9 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //POST api/Theme/InsertNewTheme/1
+        //POST api/Theme
         [Authorize(Roles = "User")]
-        [Route("InsertNewTheme")]
+        [Route("")]
         [HttpPost]
         public IHttpActionResult InsertNewTheme([FromBody] NewThemeBindingModel newTheme)
         {
@@ -111,10 +111,10 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //POST api/Theme/UpdateTheme
-        [Route("UpdateTheme")]
+        //PUT api/Theme
         [Authorize(Roles = "Moderator")]
-        [HttpPost]
+        [Route("")]
+        [HttpPut]
         public IHttpActionResult UpdateTheme([FromBody] ThemeToUpdateBindingModel themetoUpdate)
         {
             if (ModelState.IsValid)
@@ -134,16 +134,16 @@ namespace WebApplicationClient.Controllers
         }
 
 
-        //ThemeId
-        //POST api/Theme/DeleteTheme
-        [Route("DeleteTheme")]
+
+        //DELETE api/Theme/4
+        [Route("{themeId:int}")]
         [Authorize(Roles = "Moderator")]
-        [HttpPost]
-        public IHttpActionResult DeleteTheme([FromBody] ThemeDeleteBindingModel themetoDelete)
+        [HttpDelete]
+        public IHttpActionResult DeleteTheme(int themeId)
         {
             if (ModelState.IsValid)
             {
-                this.themeService.Delete(themetoDelete.ThemeId);
+                this.themeService.Delete(themeId);
                 return Ok();
             }
             else
