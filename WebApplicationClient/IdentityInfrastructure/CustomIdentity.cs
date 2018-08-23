@@ -4,8 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
+using DAL.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -20,28 +22,30 @@ namespace WebApplicationClient.IdentityInfrastructure
         }
         public static CustomUserManager Create(IdentityFactoryOptions<CustomUserManager> options, IOwinContext context)
         {
-            var manager =  new CustomUserManager(
+            var manager = new CustomUserManager(
                 new CustomUserStore(
-                    (IUserInfoService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserInfoService)),
-                    (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService))));
+                    //(IUserInfoService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserInfoService)),
+                    //(IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService)),
+                    (IUnitOfWork)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUnitOfWork))));
+                    //(IMapper)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IMapper))));
             manager.PasswordValidator = new PasswordValidator();
             return manager;
         }
 
     }
 
-    public class User : UserInfoDTO, IUser<int>
+    public class User : DAL.Models.UserInfo, IUser<int>
     {
-        public static User FromDTO(UserInfoDTO userDTO)
+        public static User FromDALUser(DAL.Models.UserInfo user)
         {
-            if (userDTO == null) return null;
+            if (user == null) return null;
             return new User()
             {
-                Id = userDTO.Id,
-                UserName = userDTO.UserName,
-                PasswordHash = userDTO.PasswordHash,
-                Email = userDTO.Email,
-                Roles = userDTO.Roles
+                Id = user.Id,
+                UserName = user.UserName,
+                PasswordHash = user.PasswordHash,
+                Email = user.Email,
+                Roles = user.Roles,
             };
         }
 
@@ -56,13 +60,17 @@ namespace WebApplicationClient.IdentityInfrastructure
 
     public class CustomUserStore : IUserStore<User, int>, IUserPasswordStore<User, int>, IUserRoleStore<User, int>
     {
-        IUserInfoService userInfoService;
-        IRoleService roleService;
+        //IUserInfoService userInfoService;
+        //IRoleService roleService;
+        IUnitOfWork unitOfWork;
+        IMapper mapper;
 
-        public CustomUserStore(IUserInfoService userInfoService, IRoleService roleService)
+        public CustomUserStore(IUnitOfWork unitOfWork)
         {
-            this.userInfoService = userInfoService;
-            this.roleService = roleService;
+            //this.userInfoService = userInfoService;
+            //this.roleService = roleService;
+            this.unitOfWork = unitOfWork;
+            this.mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<User, DAL.Models.UserInfo>()));
         }
 
         Task IUserStore<User, int>.CreateAsync(User user)
@@ -71,7 +79,9 @@ namespace WebApplicationClient.IdentityInfrastructure
             {
                 throw new ArgumentNullException("user");
             }
-            this.userInfoService.Insert(user);
+            DAL.Models.UserInfo DALuser = this.mapper.Map<DAL.Models.UserInfo>(user);
+            this.unitOfWork.Users.Insert(DALuser);
+            this.unitOfWork.Save();
             return Task.FromResult(0);
         }
 
@@ -81,13 +91,14 @@ namespace WebApplicationClient.IdentityInfrastructure
             {
                 throw new ArgumentNullException("user");
             }
-            this.userInfoService.Delete(user.Id);
+            this.unitOfWork.Users.Delete(user.Id);
+            this.unitOfWork.Save();
             return Task.FromResult(0);
         }
 
         Task<User> IUserStore<User, int>.FindByIdAsync(int userId)
         {
-            return Task.FromResult(User.FromDTO(this.userInfoService.GetById(userId)));
+            return Task.FromResult(this.mapper.Map<User>(this.unitOfWork.Users.GetById(userId)));
         }
 
         Task<User> IUserStore<User, int>.FindByNameAsync(string userName)
@@ -96,7 +107,7 @@ namespace WebApplicationClient.IdentityInfrastructure
             {
                 throw new ArgumentNullException("userName");
             }
-            return Task.FromResult(User.FromDTO(this.userInfoService.GetByUsername(userName)));
+            return Task.FromResult(this.mapper.Map<User>(this.unitOfWork.Users.GetByUsername(userName)));
         }
 
         Task IUserStore<User, int>.UpdateAsync(User user)
@@ -105,7 +116,11 @@ namespace WebApplicationClient.IdentityInfrastructure
             {
                 throw new ArgumentNullException("user");
             }
-            this.userInfoService.Update(user);
+            DAL.Models.UserInfo DALuser = this.unitOfWork.Users.GetById(user.Id);
+            DALuser = this.mapper.Map(user, DALuser);
+            DALuser.Roles = user.Roles.Select(r => this.unitOfWork.Roles.GetByName(r.Name)).Where(r => r != null).ToList();
+            this.unitOfWork.Users.Update(DALuser);
+            this.unitOfWork.Save();
             return Task.FromResult(0);
         }
 
@@ -150,6 +165,7 @@ namespace WebApplicationClient.IdentityInfrastructure
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
+                    (this.unitOfWork as IDisposable).Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -186,15 +202,15 @@ namespace WebApplicationClient.IdentityInfrastructure
                 throw new ArgumentException("roleName");
             }
 
-            var role = this.roleService.GetByName(roleName);
+            DAL.Models.Role role = this.unitOfWork.Roles.GetByName(roleName);
             if(user.Roles == null)
             {
-                user.Roles = new List<RoleDTO>();
+                user.Roles = new List<DAL.Models.Role>();
             }
             if (role != null && user.Roles.All(r => r.Id != role.Id))
             {
                 user.Roles.Add(role);
-                this.userInfoService.Update(user);
+
             }
 
             return Task.FromResult(0);
@@ -210,11 +226,10 @@ namespace WebApplicationClient.IdentityInfrastructure
             {
                 throw new ArgumentNullException("roleName");
             }
-            var role = this.roleService.GetByName(roleName);
+            var role = this.unitOfWork.Roles.GetByName(roleName);
             if (role != null)
             {
                 user.Roles.Remove(user.Roles.FirstOrDefault(r => r.Id == role.Id));
-                this.userInfoService.Update(user);
             }
             return Task.FromResult(0);
         }

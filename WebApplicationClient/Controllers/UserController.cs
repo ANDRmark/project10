@@ -24,17 +24,12 @@ namespace WebApplicationClient.Controllers
         private const string LocalLoginProvider = "Local";
         private CustomUserManager _userManager;
 
-        public UserController(IUserInfoService userInfoService)
+        public UserController(IUserInfoService userInfoService, IRoleService roleService)
         {
             this.userInfoService = userInfoService;
+            this.roleService = roleService;
         }
 
-        public UserController(CustomUserManager userManager,
-            IUserInfoService userInfoService)
-        {
-            UserManager = userManager;
-            this.userInfoService = userInfoService;
-        }
 
 
         public CustomUserManager UserManager
@@ -148,10 +143,13 @@ namespace WebApplicationClient.Controllers
                 UserInfoDTO user = this.userInfoService.GetById(model.Id);
                 if (user == null) return BadRequest("User not found");
 
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+
                 user.Roles = new List<RoleDTO>();
                 foreach(var role in model.Roles)
                 {
-                    user.Roles.Add(new RoleDTO() { Name=role.Name});
+                    user.Roles.Add(new RoleDTO() { Name = role.Name });
                 }
                 this.userInfoService.Update(user);
 

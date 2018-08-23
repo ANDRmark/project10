@@ -55,9 +55,11 @@ namespace DAL_EF.Repositories
             {
                 this.context.Entry(original).CurrentValues.SetValues(item);
 
-                original.Roles = item.Roles.Select(r => this.context.Set<Role>().FirstOrDefault(originalrole => originalrole.Name == r.Name))
-                    .Where(originalrole => originalrole != null)
-                    .ToList();
+                //original.Roles = item.Roles.Select(r => this.context.Set<Role>().FirstOrDefault(originalrole => originalrole.Name == r.Name))
+                //    .Where(originalrole => originalrole != null)
+                //    .ToList();
+
+
             }
         }
 

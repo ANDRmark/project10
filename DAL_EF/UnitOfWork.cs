@@ -10,7 +10,7 @@ using DAL_EF.Repositories;
 
 namespace DAL_EF
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly Lazy<IMessageRepository> lazyMessages;
         private readonly Lazy<IThemeRepository> lazyThemes;
@@ -81,6 +81,26 @@ namespace DAL_EF
         void IUnitOfWork.Save()
         {
             this.dbContext.SaveChanges();
+        }
+
+
+        private bool disposed = false; 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    this.dbContext.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+
         }
     }
 }

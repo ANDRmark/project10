@@ -10,9 +10,6 @@ namespace BLL.DTO
     {
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string ExternalUserId { get; set; }
-        public string PasswordHash { get; set; }
-        
 
         public virtual ICollection<RoleDTO> Roles { get; set; }
     }
