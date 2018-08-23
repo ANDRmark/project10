@@ -29,6 +29,11 @@ namespace WebApplicationClient.IdentityInfrastructure
                     (IUnitOfWork)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUnitOfWork))));
                     //(IMapper)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IMapper))));
             manager.PasswordValidator = new PasswordValidator();
+            manager.UserValidator = new UserValidator<User,int>(manager)
+            {
+                AllowOnlyAlphanumericUserNames = false,
+                RequireUniqueEmail = false
+            };
             return manager;
         }
 
