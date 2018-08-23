@@ -11,7 +11,6 @@ namespace BLL.Interfaces
     {
         IEnumerable<UserInfoDTO> GetAll();
         UserInfoDTO GetById(int id);
-        UserInfoDTO GetByExternalId(string id);
         UserInfoDTO GetByUsername(string username);
         IEnumerable<UserInfoDTO> SearchByUsernamePart(string username);
         void Insert(UserInfoDTO newUserInfo);

@@ -32,10 +32,6 @@ namespace DAL_EF.Repositories
             return this.table.Include(u => u.Roles).Where(predicat).ToList();
         }
 
-        UserInfo IUserInfoRepository.GetByExternalId(string id)
-        {
-            return this.table.Include(u => u.Roles).Where(u => u.ExternalUserId == id).FirstOrDefault();
-        }
 
         IEnumerable<UserInfo> IUserInfoRepository.SearchByUsernamePart(string usernamePart)
         {

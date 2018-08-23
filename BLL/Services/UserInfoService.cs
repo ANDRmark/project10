@@ -32,11 +32,6 @@ namespace BLL.Services
             return this.mapper.Map<IEnumerable<UserInfoDTO>>(users);
         }
 
-        UserInfoDTO IUserInfoService.GetByExternalId(string id)
-        {
-            DAL.Models.UserInfo user = this.unitOfWork.Users.GetByExternalId(id);
-            return this.mapper.Map<UserInfoDTO>(user);
-        }
 
         UserInfoDTO IUserInfoService.GetById(int id)
         {
