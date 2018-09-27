@@ -59,9 +59,11 @@ namespace BLL.Services
 
         void IUserInfoService.Update(UserInfoDTO userToUpdate)
         {
-            DAL.Models.UserInfo user = this.unitOfWork.Users.GetById(userToUpdate.Id);
+            //DAL.Models.UserInfo user = this.unitOfWork.Users.GetById(userToUpdate.Id);
+            var user = new DAL.Models.UserInfo();
             user = this.mapper.Map(userToUpdate, user);
-            user.Roles = userToUpdate.Roles.Select(r => this.unitOfWork.Roles.GetByName(r.Name)).Where(r => r != null).ToList();
+            user.Roles = userToUpdate.Roles.Select(r => new DAL.Models.Role() { Name=r.Name}).ToList();
+            //user.Roles = userToUpdate.Roles.Select(r => this.unitOfWork.Roles.GetByName(r.Name)).Where(r => r != null).ToList();
             this.unitOfWork.Users.Update(user);
             this.unitOfWork.Save();
 
